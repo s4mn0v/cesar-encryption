@@ -1,54 +1,122 @@
-# Cifrado César con Rueda
+Claro, aquí tienes una descripción detallada del código:
 
-Este proyecto es una aplicación de escritorio para cifrado y descifrado de texto utilizando el cifrado César, implementado en Python con la biblioteca PyQt6. La aplicación presenta una interfaz gráfica que incluye una representación visual de la rueda de César, un campo de entrada para el texto, controles para ajustar el desplazamiento del cifrado, y botones para cifrar y descifrar el texto.
+---
 
-## Requisitos
+**Archivo:** `cifrado_cesar_interactivo.py`
 
-- Python 3.x
-- PyQt6
+### Descripción General
 
-Puedes instalar PyQt6 con pip si aún no lo tienes:
-```bash
-pip install PyQt6
-```
+Este script implementa una aplicación de escritorio para cifrar y descifrar texto usando el cifrado César, con una interfaz gráfica creada con PyQt6. La aplicación incluye una rueda de César visual, campos para ingresar texto y ajustes para configurar el cifrado.
 
-## Descripción del Código
+### Librerías Importadas
+
+- `sys`: Módulo para interactuar con el sistema y gestionar argumentos de la línea de comandos.
+- `math`: Módulo matemático para funciones como `cos` y `sin`, utilizadas en el dibujo de la rueda de César.
+- `unicodedata`: Módulo para normalizar caracteres Unicode y tratar caracteres especiales.
+- `PyQt6.QtWidgets`: Contiene clases para construir la interfaz gráfica, incluyendo `QApplication`, `QMainWindow`, `QWidget`, `QVBoxLayout`, `QHBoxLayout`, `QLabel`, `QLineEdit`, `QPushButton`, `QTextEdit`, `QSpinBox`, y `QCheckBox`.
+- `PyQt6.QtGui`: Contiene clases para la representación gráfica, incluyendo `QPainter`, `QColor`, `QPen`, y `QFont`.
+- `PyQt6.QtCore`: Contiene clases para funciones básicas y de control, incluyendo `Qt`, `QRectF`, y `QPointF`.
 
 ### Clases
 
 #### `CaesarWheel`
 
-Una clase personalizada que hereda de `QWidget` y se encarga de dibujar la rueda de César en la interfaz gráfica.
+Esta clase hereda de `QWidget` y representa la rueda de César en la interfaz gráfica.
 
-- **Métodos Principales:**
-  - `__init__(self, parent=None)`: Constructor de la clase. Inicializa el objeto y establece el tamaño mínimo del widget.
-  - `setShift(self, shift)`: Establece el desplazamiento del cifrado y actualiza el widget.
-  - `paintEvent(self, event)`: Dibuja la rueda de César con las letras y el desplazamiento especificado.
+- **Métodos:**
+
+  - `__init__(self, parent=None)`: 
+    - **Propósito:** Constructor que inicializa el widget.
+    - **Parámetros:** `parent` (opcional) - El widget padre.
+    - **Inicializa:** 
+      - `self.shift` a 0 (desplazamiento del cifrado).
+      - `self.include_numbers` a `False` (si se deben incluir números).
+      - `self.include_special` a `False` (si se deben incluir caracteres especiales).
+      - `self.preserve_case` a `False` (si se debe preservar el caso de las letras).
+      - Establece el tamaño mínimo del widget a 300x300 píxeles.
+
+  - `setShift(self, shift)`:
+    - **Propósito:** Establece el valor del desplazamiento y actualiza el dibujo.
+    - **Parámetros:** `shift` (int) - Valor del desplazamiento.
+
+  - `setOptions(self, include_numbers, include_special, preserve_case)`:
+    - **Propósito:** Configura las opciones de la rueda de César y actualiza el dibujo.
+    - **Parámetros:** 
+      - `include_numbers` (bool) - Si se deben incluir números en la rueda.
+      - `include_special` (bool) - Si se deben incluir caracteres especiales.
+      - `preserve_case` (bool) - Si se debe preservar el caso de las letras.
+
+  - `paintEvent(self, event)`:
+    - **Propósito:** Dibuja la rueda de César en el widget.
+    - **Detalles del Dibujo:**
+      - Crea un `QPainter` para el dibujo.
+      - Dibuja un círculo exterior e interior.
+      - Determina qué caracteres incluir basándose en las opciones.
+      - Calcula la posición de cada carácter usando funciones trigonométricas.
+      - Dibuja los caracteres en el círculo exterior e interior, aplicando el desplazamiento especificado.
+      - Dibuja una línea de referencia en la rueda.
 
 #### `CifradoCesarApp`
 
-La clase principal que hereda de `QMainWindow` y crea la interfaz de usuario de la aplicación.
+Esta clase hereda de `QMainWindow` y gestiona la ventana principal de la aplicación.
 
-- **Métodos Principales:**
-  - `__init__(self)`: Constructor de la clase. Configura la ventana principal y agrega los widgets necesarios.
-  - `update_wheel(self, value)`: Actualiza el desplazamiento de la rueda de César.
-  - `caesar_cipher(self, text, shift, decrypt=False)`: Implementa el cifrado y descifrado César.
-  - `encrypt(self)`: Cifra el texto ingresado y muestra el resultado.
-  - `decrypt(self)`: Descifra el texto ingresado y muestra el resultado.
+- **Métodos:**
 
-## Uso
+  - `__init__(self)`:
+    - **Propósito:** Configura la ventana principal y agrega los widgets necesarios.
+    - **Detalles:**
+      - Establece el título de la ventana y su geometría.
+      - Crea un widget central y configura un diseño vertical (`QVBoxLayout`).
+      - Agrega la rueda de César (`CaesarWheel`) al diseño.
+      - Agrega un campo de entrada para el texto (`QLineEdit`).
+      - Agrega un control deslizante (`QSpinBox`) para ajustar el desplazamiento.
+      - Agrega casillas de verificación (`QCheckBox`) para incluir números, caracteres especiales y preservar el caso.
+      - Conecta las casillas de verificación a una función que actualiza las opciones de la rueda.
+      - Agrega botones para cifrar y descifrar el texto (`QPushButton`).
+      - Agrega un área de texto (`QTextEdit`) para mostrar el resultado cifrado o descifrado.
 
-1. Ejecuta el script.
-2. La aplicación mostrará una ventana con una rueda de César, un campo de entrada para texto, un control deslizante para el desplazamiento, y botones para cifrar y descifrar el texto.
-3. Ingresa el texto en el campo correspondiente y ajusta el desplazamiento.
-4. Haz clic en el botón "Cifrar" para cifrar el texto o en el botón "Descifrar" para descifrarlo. El resultado se mostrará en el área de texto inferior.
+  - `update_wheel(self, value)`:
+    - **Propósito:** Actualiza el desplazamiento de la rueda de César.
+    - **Parámetros:** `value` (int) - Valor del desplazamiento.
 
-## Ejecución
+  - `update_wheel_options(self)`:
+    - **Propósito:** Actualiza las opciones de la rueda de César basándose en los valores de las casillas de verificación.
 
-Para ejecutar la aplicación, guarda el código en un archivo llamado, por ejemplo, `cifrado_cesar.py` y corre el script con Python:
+  - `caesar_cipher(self, text, shift, decrypt=False)`:
+    - **Propósito:** Implementa el cifrado y descifrado César.
+    - **Parámetros:** 
+      - `text` (str) - Texto a cifrar o descifrar.
+      - `shift` (int) - Valor del desplazamiento.
+      - `decrypt` (bool) - Indica si se debe descifrar en lugar de cifrar.
+    - **Detalles:**
+      - Ajusta el desplazamiento para descifrar si es necesario.
+      - Procesa cada carácter del texto:
+        - Si es una letra, aplica el desplazamiento considerando el caso.
+        - Si es un dígito y los números están habilitados, aplica el desplazamiento.
+        - Si es un carácter especial y se deben incluir caracteres especiales, se mantiene tal cual.
+        - Normaliza caracteres Unicode y aplica el cifrado si son letras.
+      - Devuelve el texto cifrado o descifrado.
+
+  - `encrypt(self)`:
+    - **Propósito:** Cifra el texto ingresado y muestra el resultado.
+    - **Detalles:** 
+      - Obtiene el texto y el valor del desplazamiento.
+      - Llama a `caesar_cipher` para cifrar el texto.
+      - Muestra el resultado en el área de texto.
+
+  - `decrypt(self)`:
+    - **Propósito:** Descifra el texto ingresado y muestra el resultado.
+    - **Detalles:**
+      - Obtiene el texto y el valor del desplazamiento.
+      - Llama a `caesar_cipher` para descifrar el texto.
+      - Muestra el resultado en el área de texto.
+
+### Ejecución
+
+Para ejecutar la aplicación, guarda el código en un archivo llamado `cifrado_cesar_interactivo.py` y corre el script con el siguiente comando:
 
 ```bash
-python cifrado_cesar.py
+python cifrado_cesar_interactivo.py
 ```
 
-¡Disfruta cifrando y descifrando mensajes con tu nueva aplicación de cifrado César!
+La aplicación mostrará una ventana con la rueda de César interactiva, campos para ingresar el texto, ajustar el desplazamiento, seleccionar opciones adicionales y botones para cifrar o descifrar el texto.
