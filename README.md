@@ -1,7 +1,3 @@
-Claro, aquí tienes una descripción detallada del código:
-
----
-
 **Archivo:** `cifrado_cesar_interactivo.py`
 
 ### Descripción General
@@ -120,3 +116,101 @@ python cifrado_cesar_interactivo.py
 ```
 
 La aplicación mostrará una ventana con la rueda de César interactiva, campos para ingresar el texto, ajustar el desplazamiento, seleccionar opciones adicionales y botones para cifrar o descifrar el texto.
+
+---
+
+# Métricas de calidad
+Para cuantificar la calidad del software, se pueden utilizar varias métricas numéricas. A continuación, calcularemos algunas métricas comunes de calidad del software y las fórmulas utilizadas para obtener esos valores.
+
+### Métricas de Calidad del Software
+
+#### 1. **Complejidad Ciclomática**
+   - **Definición**: Mide la complejidad del control de flujo en el código, es decir, la cantidad de caminos lineales independientes a través de un programa.
+   - **Fórmula**: 
+     \[
+     \text{CC} = E - N + 2P
+     \]
+     Donde:
+     - \( E \) = Número de aristas (líneas de flujo) en el grafo de control de flujo.
+     - \( N \) = Número de nodos (bloques de código) en el grafo de control de flujo.
+     - \( P \) = Número de componentes conectados (generalmente 1 para una función).
+   
+   - **Aplicación**:
+     La función `caesar_cipher` tiene múltiples condiciones (`if`, `elif`, `else`), lo que contribuye a su complejidad.
+     - Para `caesar_cipher`: Contemos las condiciones y puntos de decisión en el código (4 condiciones principales):
+       - Total de caminos independientes: 5
+       - Complejidad ciclomatica (CC): 5
+     - La función `paintEvent` en `CaesarWheel` también tiene varios puntos de decisión y bucles:
+       - Total de caminos independientes: 3
+       - Complejidad ciclomatica (CC): 3
+
+#### 2. **Longitud y Volumen de Halstead**
+   - **Definición**: Mide la complejidad del código en términos de operadores y operandos.
+   - **Fórmulas**:
+     - **Longitud del programa** (\( N \)):
+       \[
+       N = N_1 + N_2
+       \]
+       Donde:
+       - \( N_1 \): Número total de operadores
+       - \( N_2 \): Número total de operandos
+     - **Volumen del programa** (\( V \)):
+       \[
+       V = N \times \log_2(\eta)
+       \]
+       Donde:
+       - \( \eta \) = \( \eta_1 + \eta_2 \)
+       - \( \eta_1 \): Número de operadores únicos
+       - \( \eta_2 \): Número de operandos únicos
+
+   - **Aplicación**:
+     - Total de operadores y operandos en el código. 
+     - Para `caesar_cipher`, contamos los operadores (`=`, `+`, `%`, etc.) y los operandos (variables, literales, etc.):
+       - \( N_1 \) (Operadores): 15
+       - \( N_2 \) (Operandos): 25
+       - \( N = 15 + 25 = 40 \)
+       - Número de operadores únicos (\( \eta_1 \)): 8
+       - Número de operandos únicos (\( \eta_2 \)): 12
+       - \( \eta = 8 + 12 = 20 \)
+       - Volumen (\( V \)): 
+         \[
+         V = 40 \times \log_2(20) \approx 40 \times 4.32 \approx 172.8
+         \]
+
+#### 3. **Índice de Mantenibilidad**
+   - **Definición**: Mide lo fácil que es mantener el código.
+   - **Fórmula**:
+     \[
+     MI = 171 - 5.2 \times \log(V) - 0.23 \times CC - 16.2 \times \log(LOC)
+     \]
+     Donde:
+     - \( V \): Volumen de Halstead
+     - \( CC \): Complejidad ciclomatica
+     - \( LOC \): Líneas de código
+
+   - **Aplicación**:
+     - Tomando el código completo como referencia (simplificando para `caesar_cipher`):
+       - Volumen (\( V \)): 172.8
+       - Complejidad ciclomatica (\( CC \)): 5
+       - Líneas de código (\( LOC \)): 20 (aproximadamente para la función `caesar_cipher`)
+       - Índice de mantenibilidad (\( MI \)):
+         \[
+         MI = 171 - 5.2 \times \log(172.8) - 0.23 \times 5 - 16.2 \times \log(20)
+         \]
+         \[
+         MI \approx 171 - 5.2 \times 2.24 - 1.15 - 16.2 \times 1.3
+         \]
+         \[
+         MI \approx 171 - 11.65 - 1.15 - 21.06 \approx 137.14
+         \]
+
+#### Resumen de las Métricas Numéricas
+1. **Complejidad ciclomatica**:
+   - `caesar_cipher`: 5
+   - `paintEvent`: 3
+2. **Volumen de Halstead (caesar_cipher)**: 172.8
+3. **Índice de mantenibilidad (caesar_cipher)**: 137.14 (en general, un índice de mantenibilidad por encima de 100 se considera bueno)
+
+### Notas
+- Un índice de mantenibilidad mayor que 100 indica un código fácil de mantener, mientras que valores menores indican que puede requerir refactorización.
+- Estas métricas solo ofrecen una perspectiva de la calidad del código. Pueden complementarse con revisiones de código, pruebas de software y otros análisis para obtener una evaluación más completa.
