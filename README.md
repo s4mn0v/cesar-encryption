@@ -209,7 +209,7 @@ La aplicación mostrará una ventana con la rueda de César interactiva, campos 
 3. **Índice de mantenibilidad (caesar_cipher)**: 137.14 (en general, un índice de mantenibilidad por encima de 100 se considera bueno)
 
 ---
-Para evaluar la calidad del software con las métricas que mencionas (número de clases, herencia, número de métodos, tamaño y cohesión), vamos a analizar el código proporcionado en detalle. 
+Para evaluar la calidad del software con las métricas que mencionas (número de clases, herencia, número de métodos, tamaño y cohesión)
 
 ### Análisis del Código
 
@@ -265,5 +265,3 @@ Para evaluar la calidad del software con las métricas que mencionas (número de
 - **Herencia**: La herencia en este código se usa para la interfaz gráfica, derivando de las clases de PyQt6.
 - **Cohesión**: Ambas clases muestran alta cohesión, ya que sus métodos y atributos están claramente relacionados y se utilizan entre sí para cumplir con las responsabilidades de cada clase.
 - **Tamaño**: La clase `CifradoCesarApp` es significativamente más grande en términos de líneas de código que `CaesarWheel`, lo cual es normal, ya que `CifradoCesarApp` contiene la mayor parte de la lógica de la interfaz gráfica.
-
-Estas métricas muestran que el diseño del código es sólido, con un buen nivel de cohesión, un número manejable de métodos por clase, y un uso adecuado de la herencia para implementar la interfaz gráfica.
