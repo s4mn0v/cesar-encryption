@@ -119,10 +119,7 @@ La aplicación mostrará una ventana con la rueda de César interactiva, campos 
 
 ---
 
-# Métricas de calidad
-Para cuantificar la calidad del software, se pueden utilizar varias métricas numéricas. A continuación, calcularemos algunas métricas comunes de calidad del software y las fórmulas utilizadas para obtener esos valores.
-
-### Métricas de Calidad del Software
+# Métricas de Calidad del Software
 
 #### 1. **Complejidad Ciclomática**
    - **Definición**: Mide la complejidad del control de flujo en el código, es decir, la cantidad de caminos lineales independientes a través de un programa.
@@ -211,6 +208,62 @@ Para cuantificar la calidad del software, se pueden utilizar varias métricas nu
 2. **Volumen de Halstead (caesar_cipher)**: 172.8
 3. **Índice de mantenibilidad (caesar_cipher)**: 137.14 (en general, un índice de mantenibilidad por encima de 100 se considera bueno)
 
+---
+Para evaluar la calidad del software con las métricas que mencionas (número de clases, herencia, número de métodos, tamaño y cohesión), vamos a analizar el código proporcionado en detalle. 
+
+### Análisis del Código
+
+#### 1. **Número de Clases y Herencia**
+   - Hay **2 clases** en el código:
+     1. `CaesarWheel` - Hereda de `QWidget` (clase de PyQt6).
+     2. `CifradoCesarApp` - Hereda de `QMainWindow` (clase de PyQt6).
+   - Ambas clases heredan de clases base de PyQt6, lo que permite que la aplicación tenga una interfaz gráfica. Por lo tanto, hay **herencia directa** de clases externas (no hay herencia de clases internas definidas por el usuario).
+
+#### 2. **Número de Métodos por Clase**
+   - **`CaesarWheel`**:
+     - Métodos: `__init__`, `setShift`, `setOptions`, `paintEvent`
+     - Total: **4 métodos**
+   - **`CifradoCesarApp`**:
+     - Métodos: `__init__`, `update_wheel`, `update_wheel_options`, `caesar_cipher`, `encrypt`, `decrypt`
+     - Total: **6 métodos**
+
+#### 3. **Tamaño de las Clases**
+   - **`CaesarWheel`**:
+     - Líneas de código (LOC): 50 líneas (aproximadamente)
+   - **`CifradoCesarApp`**:
+     - Líneas de código (LOC): 130 líneas (aproximadamente)
+
+#### 4. **Cohesión**
+   La cohesión mide cuán relacionadas están las responsabilidades de una clase. Para medir la cohesión de una clase en base a las referencias, veremos si los métodos de cada clase interactúan entre sí y con los atributos de la clase.
+   - **`CaesarWheel`**:
+     - **Atributos**: `shift`, `include_numbers`, `include_special`, `preserve_case`
+     - **Referencias**:
+       - `setShift`: modifica `shift`
+       - `setOptions`: modifica `include_numbers`, `include_special`, `preserve_case`
+       - `paintEvent`: utiliza `shift`, `include_numbers`, `include_special`, `preserve_case`
+     - **Cohesión**: Alta, ya que la mayoría de los métodos interactúan con los atributos de la clase. Todos los métodos están relacionados con el propósito de representar y actualizar una "rueda de cifrado".
+   - **`CifradoCesarApp`**:
+     - **Atributos**: `caesar_wheel`, `input_text`, `shift_spinbox`, `include_numbers`, `include_special`, `preserve_case`, `output_text`
+     - **Referencias**:
+       - `update_wheel`: utiliza `shift_spinbox`
+       - `update_wheel_options`: modifica `caesar_wheel`
+       - `caesar_cipher`: utiliza `preserve_case`, `include_numbers`
+       - `encrypt`, `decrypt`: utilizan `input_text`, `shift_spinbox`, `caesar_cipher`
+     - **Cohesión**: Alta, ya que todos los métodos están relacionados con la funcionalidad de la aplicación de cifrado César. Interactúan con la interfaz gráfica y los elementos de la clase para realizar la tarea de cifrado.
+
+### Resumen de las Métricas
+
+| Métrica                    | `CaesarWheel` | `CifradoCesarApp` |
+|----------------------------|---------------|-------------------|
+| Número de métodos          | 4             | 6                 |
+| Líneas de código (tamaño)  | 50            | 130               |
+| Cohesión                   | Alta          | Alta              |
+| Herencia                   | `QWidget`     | `QMainWindow`     |
+
 ### Notas
-- Un índice de mantenibilidad mayor que 100 indica un código fácil de mantener, mientras que valores menores indican que puede requerir refactorización.
-- Estas métricas solo ofrecen una perspectiva de la calidad del código. Pueden complementarse con revisiones de código, pruebas de software y otros análisis para obtener una evaluación más completa.
+- **Número de Clases**: Hay dos clases principales, y cada una se encarga de una parte clara de la funcionalidad: una para la rueda de cifrado visual (`CaesarWheel`) y otra para la lógica y control de la aplicación (`CifradoCesarApp`).
+- **Herencia**: La herencia en este código se usa para la interfaz gráfica, derivando de las clases de PyQt6.
+- **Cohesión**: Ambas clases muestran alta cohesión, ya que sus métodos y atributos están claramente relacionados y se utilizan entre sí para cumplir con las responsabilidades de cada clase.
+- **Tamaño**: La clase `CifradoCesarApp` es significativamente más grande en términos de líneas de código que `CaesarWheel`, lo cual es normal, ya que `CifradoCesarApp` contiene la mayor parte de la lógica de la interfaz gráfica.
+
+Estas métricas muestran que el diseño del código es sólido, con un buen nivel de cohesión, un número manejable de métodos por clase, y un uso adecuado de la herencia para implementar la interfaz gráfica.
